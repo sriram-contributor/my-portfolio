@@ -1,29 +1,50 @@
-from flask import Flask, request, jsonify
+import streamlit as st
 import joblib
-import pandas as pd
+import numpy as np
 
-# Initialize Flask app
-app = Flask(__name__)
+# Load model and scaler
+model = joblib.load('model.pkl')
+scaler = joblib.load('scaler.pkl')
 
-# Load the trained model
-model = joblib.load("churn_model.pkl")
+st.title("📊 Customer Churn Predictor")
 
-# Define the prediction route
-@app.route('/predict', methods=['POST'])
-def predict():
-    data = request.get_json()  # Get JSON data from request
-    df = pd.DataFrame([data])  # Convert to DataFrame
-    
-    # Make prediction
-    prediction = model.predict(df)
-    churn_probability = model.predict_proba(df)[:,1]
-    
-    # Return result
-    return jsonify({
-        "Churn Prediction": int(prediction[0]), 
-        "Churn Probability": float(churn_probability[0])
-    })
+st.markdown("Enter customer details below:")
 
-# Run the app
-if __name__ == '__main__':
-    app.run(debug=True)
+# Collect user input
+tenure = st.slider("Tenure (months)", 0, 72, 12)
+monthly_charges = st.number_input("Monthly Charges", min_value=0.0, max_value=200.0, value=50.0)
+contract = st.selectbox("Contract Type", ["Month-to-month", "One year", "Two year"])
+internet_service = st.selectbox("Internet Service", ["DSL", "Fiber optic", "No"])
+payment_method = st.selectbox("Payment Method", ["Electronic check", "Mailed check", "Bank transfer (automatic)", "Credit card (automatic)"])
+
+# Map to dummy variables
+contract_map = {
+    "Month-to-month": [1, 0],
+    "One year": [0, 1],
+    "Two year": [0, 0]
+}
+internet_map = {
+    "DSL": [1, 0],
+    "Fiber optic": [0, 1],
+    "No": [0, 0]
+}
+payment_map = {
+    "Electronic check": [1, 0, 0],
+    "Mailed check": [0, 1, 0],
+    "Bank transfer (automatic)": [0, 0, 1],
+    "Credit card (automatic)": [0, 0, 0]
+}
+
+# Construct final input vector
+features = [tenure, monthly_charges] +            contract_map[contract] +            internet_map[internet_service] +            payment_map[payment_method]
+
+# Scale numeric input
+features_scaled = scaler.transform([features])
+
+# Predict
+if st.button("Predict Churn"):
+    prediction = model.predict(features_scaled)[0]
+    if prediction == 1:
+        st.error("⚠️ This customer is likely to churn.")
+    else:
+        st.success("✅ This customer is not likely to churn.")
