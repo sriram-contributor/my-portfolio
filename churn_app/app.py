@@ -3,7 +3,7 @@ import joblib
 import numpy as np
 
 # Load model and scaler
-model = joblib.load('churn_model.pkl')
+model = joblib.load('/mount/src/my-portfolio/churn_app/churn_model.pkl')
 scaler = joblib.load('scaler.pkl')
 
 st.title("📊 Customer Churn Predictor")
