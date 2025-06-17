@@ -9,7 +9,7 @@ This project aims to predict customer churn using machine learning models. Churn
 This project is an end-to-end machine learning solution to predict customer churn for a telecom company, built using Python and deployed as a live web application with Streamlit.
 
 🔗 **Live App**: [Click to try it out!](https://my-portfolio-qztukjwt6wvent5azdenar.streamlit.app/)  
-📁 **GitHub Repo**: [https://github.com/yourusername/your-repo](https://github.com/sriram-contributor/my-portfolio/tree/main/churn_app)
+📁 **GitHub Repo**: [https://github.com/sriram-contributor/my-portfolio](https://github.com/sriram-contributor/my-portfolio)
 
 ---
 
@@ -69,7 +69,7 @@ churn_app/
 ## 💡 How to Run This App Locally
 
 ```bash
-git clone https://github.com/yourusername/your-repo
+git clone https://github.com/sriram-contributor/my-portfolio.git
 cd churn_app
 pip install -r requirements.txt
 streamlit run app.py
