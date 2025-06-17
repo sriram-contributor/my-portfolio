@@ -57,10 +57,10 @@ Given historical data from a telecom company, the goal is to build a predictive 
 ## 🗂 Folder Structure
 
 churn_app/
-├── app.py # Streamlit app
-├── model.pkl # Trained ML model
-├── scaler.pkl # Scaler used on input features
-├── feature_columns.pkl # List of all features used in training
+├── app.py # Streamlit app \
+├── model.pkl # Trained ML model \
+├── scaler.pkl # Scaler used on input features \
+├── feature_columns.pkl # List of all features used in training \
 ├── requirements.txt # Required Python packages
 
 
